@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Budgeting App</title>
+</head>
+<body>
+  <h1>Envelope Budgeting</h1>
+
+  <h2>Create Category</h2>
+  <input id="catName" placeholder="Category name">
+  <button onclick="createCategory()">Add Category</button>
+  <pre id="catResult"></pre>
+
+  <h2>Assign Budget</h2>
+  <input id="catId" placeholder="Category ID">
+  <input id="month" placeholder="Month (YYYY-MM)">
+  <input id="amount" placeholder="Amount">
+  <button onclick="assignBudget()">Assign</button>
+  <pre id="budgetResult"></pre>
+
+  <h2>Record Transaction</h2>
+  <input id="txCatId" placeholder="Category ID">
+  <input id="txAmount" placeholder="Amount (negative=spend)">
+  <input id="txMonth" placeholder="Month (YYYY-MM)">
+  <button onclick="createTransaction()">Record</button>
+  <pre id="txResult"></pre>
+
+  <h2>View Budget</h2>
+  <input id="viewMonth" placeholder="Month (YYYY-MM)">
+  <button onclick="viewBudget()">View</button>
+  <pre id="viewResult"></pre>
+
+  <script>
+    async function createCategory() {
+      const res = await fetch("/categories/", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({name: document.getElementById("catName").value})
+      });
+      document.getElementById("catResult").textContent = await res.text();
+    }
+
+    async function assignBudget() {
+      const res = await fetch("/budget/assign", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+          category_id: parseInt(document.getElementById("catId").value),
+          month: document.getElementById("month").value,
+          amount: parseInt(document.getElementById("amount").value)
+        })
+      });
+      document.getElementById("budgetResult").textContent = await res.text();
+    }
+
+    async function createTransaction() {
+      const res = await fetch("/transactions/", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+          category_id: parseInt(document.getElementById("txCatId").value),
+          amount: parseInt(document.getElementById("txAmount").value),
+          month: document.getElementById("txMonth").value
+        })
+      });
+      document.getElementById("txResult").textContent = await res.text();
+    }
+
+    async function viewBudget() {
+      const res = await fetch("/budget/" + document.getElementById("viewMonth").value);
+      document.getElementById("viewResult").textContent = await res.text();
+    }
+  </script>
+</body>
+</html>
