@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+duckdb
+pydantic
+streamlit
+requests
