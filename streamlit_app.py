@@ -64,3 +64,4 @@ if st.button("Record Transaction"):
         st.success("Transaction recorded!")
     else:
         st.error(f"Failed to record transaction: {res.text}")
+#test
