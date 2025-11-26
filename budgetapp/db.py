@@ -10,7 +10,8 @@ def next_id(table: str) -> int:
 conn.execute("""
 CREATE TABLE IF NOT EXISTS categories (
     id INTEGER PRIMARY KEY,
-    name VARCHAR UNIQUE NOT NULL
+    name VARCHAR UNIQUE NOT NULL,
+    deleted BOOLEAN DEFAULT FALSE
 );
 """)
 
@@ -22,7 +23,8 @@ CREATE TABLE IF NOT EXISTS budget_month_categories (
     month VARCHAR NOT NULL,
     budgeted INTEGER DEFAULT 0,
     spent INTEGER DEFAULT 0,
-    balance INTEGER DEFAULT 0
+    balance INTEGER DEFAULT 0,
+    deleted BOOLEAN DEFAULT FALSE
 );
 """)
 
@@ -32,6 +34,7 @@ CREATE TABLE IF NOT EXISTS transactions (
     id INTEGER PRIMARY KEY,
     category_id INTEGER NOT NULL,
     amount INTEGER NOT NULL,
-    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    deleted BOOLEAN DEFAULT FALSE
 );
 """)
